@@ -4,78 +4,23 @@ function displayCart() {
     const container = document.getElementById('cart-list');
     const subtotalEl = document.getElementById('subtotal');
     
+    // NEW: Get the new fee and total elements
+    const deliveryEl = document.getElementById('delivery-fee');
+    const totalEl = document.getElementById('final-total');
+    
     // 2. If no items, show empty message
     if (cart.length === 0) {
-        container.innerHTML = '<p class="empty-msg" style="text-align:center; padding: 20px; color: #666;">Your cart is empty.</p>';
-        subtotalEl.innerText = 'GH¢0.00';
+        if (container) container.innerHTML = '<p class="empty-msg" style="text-align:center; padding: 20px; color: #666;">Your cart is empty.</p>';
+        if (subtotalEl) subtotalEl.innerText = 'GH¢0.00';
+        if (deliveryEl) deliveryEl.innerText = 'GH¢0.00';
+        if (totalEl) totalEl.innerText = 'GH¢0.00';
         return;
     }
 
     // 3. Generate HTML for items
-    let total = 0;
-    container.innerHTML = cart.map((item, index) => {
-        // Ensure price is a number for calculation
-        const price = parseFloat(item.price);
-        total += price;
-
-        return `
-            <div class="cart-item">
-                <div>
-                    <strong>${item.name}</strong><br>
-                    <span style="color: #27ae60; font-weight: bold;">GH¢${price.toFixed(2)}</span>
-                </div>
-                <button class="remove-btn" onclick="removeItem(${index})">Remove</button>
-            </div>
-        `;
-    }).join('');
-
-    // 4. Update the subtotal in the summary card
-    subtotalEl.innerText = `GH¢${total.toFixed(2)}`;
-}
-
-// Function to remove an item
-function removeItem(index) {
-    let cart = JSON.parse(localStorage.getItem('myCart')) || [];
-    cart.splice(index, 1);
-    localStorage.setItem('myCart', JSON.stringify(cart));
-    displayCart();
-}
-
-// 5. Handle the Checkout Form Submission
-document.getElementById('checkout-form').addEventListener('submit', function(e) {
-    e.preventDefault();
-    
-    const cart = JSON.parse(localStorage.getItem('myCart')) || [];
-    if (cart.length === 0) {
-        alert("Your cart is empty!");
-        return;
-    }
-
-    alert('Order placed successfully! Thank you for shopping at FreshMart.');
-    localStorage.removeItem('myCart'); // Clear the cart
-    window.location.href = 'supermercado.html'; // Redirect to home
-});
-
-// Run display function on page load
-function displayCart() {
-    const cart = JSON.parse(localStorage.getItem('myCart')) || [];
-    const container = document.getElementById('cart-list');
-    const subtotalEl = document.getElementById('subtotal');
-    // New Elements
-    const deliveryEl = document.getElementById('delivery-fee');
-    const totalEl = document.getElementById('final-total');
-    
-    if (cart.length === 0) {
-        container.innerHTML = '<p class="empty-msg" style="text-align:center; padding: 20px; color: #666;">Your cart is empty.</p>';
-        subtotalEl.innerText = 'GH¢0.00';
-        deliveryEl.innerText = 'GH¢0.00';
-        totalEl.innerText = 'GH¢0.00';
-        return;
-    }
-
     let subtotal = 0;
-    container.innerHTML = cart.map((item, index) => {
-        const price = parseFloat(item.price);
+    const itemsHTML = cart.map((item, index) => {
+        const price = parseFloat(item.price) || 0;
         subtotal += price;
 
         return `
@@ -89,12 +34,57 @@ function displayCart() {
         `;
     }).join('');
 
-    // --- MATH LOGIC ---
-    const deliveryFee = subtotal * 0.07; // Calculate 7%
+    if (container) container.innerHTML = itemsHTML;
+
+    // 4. MATH LOGIC (7% Fee)
+    const deliveryFee = subtotal * 0.07;
     const finalTotal = subtotal + deliveryFee;
 
-    // Update the display
-    subtotalEl.innerText = `GH¢${subtotal.toFixed(2)}`;
-    deliveryEl.innerText = `GH¢${deliveryFee.toFixed(2)}`;
-    totalEl.innerText = `GH¢${finalTotal.toFixed(2)}`;
+    // 5. Update UI (with safety checks to prevent crashes)
+    if (subtotalEl) subtotalEl.innerText = `GH¢${subtotal.toFixed(2)}`;
+    if (deliveryEl) deliveryEl.innerText = `GH¢${deliveryFee.toFixed(2)}`;
+    if (totalEl) totalEl.innerText = `GH¢${finalTotal.toFixed(2)}`;
 }
+
+// Function to remove an item
+function removeItem(index) {
+    let cart = JSON.parse(localStorage.getItem('myCart')) || [];
+    cart.splice(index, 1);
+    localStorage.setItem('myCart', JSON.stringify(cart));
+    displayCart();
+}
+
+// Handle the Checkout Form Submission
+const checkoutForm = document.getElementById('checkout-form');
+if (checkoutForm) {
+    checkoutForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+        const cart = JSON.parse(localStorage.getItem('myCart')) || [];
+        if (cart.length === 0) {
+            alert("Your cart is empty!");
+            return;
+        }
+        alert('Order placed successfully! Thank you for shopping at FreshMart.');
+        localStorage.removeItem('myCart');
+        window.location.href = 'supermercado.html';
+    });
+}
+
+// INITIALIZE PAGE
+// We wrap displayCart in a try/catch so if it fails, the loader still hides
+try {
+    displayCart();
+} catch (error) {
+    console.error("Cart display error:", error);
+}
+
+// HIDE LOADER (This must run even if there's an error above)
+window.addEventListener('load', function() {
+    const loader = document.getElementById('loader-wrapper');
+    if (loader) {
+        loader.classList.add('loader-hidden');
+        setTimeout(() => {
+            loader.style.display = 'none';
+        }, 500); 
+    }
+});
