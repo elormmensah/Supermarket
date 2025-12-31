@@ -1,0 +1,209 @@
+<!doctype html>
+<html lang="en" class="h-full">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Online Supermarket</title>
+  <script src="/_sdk/element_sdk.js"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+  <style>
+    html { scroll-behavior: smooth; }
+    body { box-sizing: border-box; font-family: 'Poppins', sans-serif; }
+    
+    /* Card Hover */
+    .category-card { transition: transform 0.3s ease, box-shadow 0.3s ease; cursor: pointer; }
+    .category-card:hover { transform: translateY(-8px); box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15); }
+
+    /* Title Hover Features Added Below */
+    .category-title {
+      transition: all 0.3s ease;
+      display: inline-block;
+    }
+    
+    /* When the parent card is hovered, the title changes */
+    .category-card:hover .category-title {
+      color: #059669 !important; /* Emerald-600 */
+      text-decoration: underline;
+      transform: scale(1.05);
+    }
+
+    .category-title:active {
+      color: #047857 !important; /* Emerald-700 */
+      transform: scale(0.95);
+    }
+
+    .deal-card { transition: transform 0.3s ease; }
+    .deal-card:hover { transform: scale(1.05); }
+    .cart-badge { animation: pulse 2s infinite; }
+    @keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.1); } }
+  </style>
+ </head>
+ <body class="h-full">
+  <div id="app" class="w-full h-full overflow-auto">
+   
+   <header class="w-full shadow-md sticky top-0 z-50" style="background-color: #10b981;">
+    <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+      <div class="flex items-center gap-3">
+       <svg class="w-10 h-10 text-white" fill="currentColor" viewbox="0 0 24 24"><path d="M7 18c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2zM1 2v2h2l3.6 7.59-1.35 2.45c-.16.28-.25.61-.25.96 0 1.1.9 2 2 2h12v-2H7.42c-.14 0-.25-.11-.25-.25l.03-.12.9-1.63h7.45c.75 0 1.41-.41 1.75-1.03l3.58-6.49c.08-.14.12-.31.12-.48 0-.55-.45-1-1-1H5.21l-.94-2H1zm16 16c-1.1 0-1.99.9-1.99 2s.89 2 1.99 2 2-.9 2-2-.9-2-2-2z" /></svg>
+       <h1 id="store-name" class="text-2xl font-bold text-white">Mercado</h1>
+      </div>
+      <nav class="hidden md:flex items-center gap-8 text-white font-medium">
+        <a href="#categories" class="hover:opacity-80">Categories</a> 
+        <a href="#deals" class="hover:opacity-80">Deals</a> 
+        <a href="#about" class="hover:opacity-80">About</a>
+      </nav>
+      <div class="flex items-center gap-4">
+        <a href="cart.html" class="relative p-2 rounded-full hover:bg-white/20 transition-colors">
+          <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" /></svg>
+          <span id="cart-count" class="cart-badge absolute -top-1 -right-1 w-5 h-5 bg-red-500 text-white rounded-full flex items-center justify-center text-xs font-bold">0</span>
+        </a>
+      </div>
+    </div>
+   </header>
+
+   <section class="w-full py-20 bg-emerald-500 text-white text-center">
+    <div class="max-w-7xl mx-auto px-6">
+      <h2 id="hero-title" class="text-5xl md:text-6xl font-bold mb-6">Fresh Groceries Delivered to Your Door</h2>
+      <p id="hero-subtitle" class="text-xl md:text-2xl mb-10 opacity-90">Shop from thousands of products with same-day delivery</p>
+      <a href="#categories" id="cta-button" class="px-10 py-4 bg-white text-emerald-600 rounded-full text-lg font-semibold shadow-lg hover:scale-105 transition-all inline-block">Start Shopping</a>
+    </div>
+   </section>
+
+   <section id="categories" class="w-full py-16 bg-gray-50">
+    <div class="max-w-7xl mx-auto px-6 text-center">
+     <h3 id="categories-heading" class="text-4xl font-bold mb-12">Shop by Category</h3>
+     <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+      
+      <div class="category-card bg-white rounded-2xl p-8" onclick="location.href='fresh-produce.html'">
+       <div class="text-6xl mb-4">🥬</div>
+       <h4 class="category-title text-xl font-semibold text-gray-800">Fresh Produce</h4>
+       <p class="text-sm text-gray-500">Fruits & Vegetables</p>
+      </div>
+
+      <div class="category-card bg-white rounded-2xl p-8" onclick="location.href='dairy.html'">
+       <div class="text-6xl mb-4">🥛</div>
+       <h4 class="category-title text-xl font-semibold text-gray-800">Dairy & Eggs</h4>
+       <p class="text-sm text-gray-500">Milk & Cheese</p>
+      </div>
+
+      <div class="category-card bg-white rounded-2xl p-8" onclick="location.href='bakery.html'">
+       <div class="text-6xl mb-4">🍞</div>
+       <h4 class="category-title text-xl font-semibold text-gray-800">Bakery</h4>
+       <p class="text-sm text-gray-500">Bread & Pastries</p>
+      </div>
+
+      <div class="category-card bg-white rounded-2xl p-8" onclick="location.href='meat-seafood.html'">
+       <div class="text-6xl mb-4">🥩</div>
+       <h4 class="category-title text-xl font-semibold text-gray-800">Meat & Seafood</h4>
+       <p class="text-sm text-gray-500">Premium Quality</p>
+      </div>
+
+      <div class="category-card bg-white rounded-2xl p-8" onclick="location.href='pantry.html'">
+       <div class="text-6xl mb-4">🍝</div>
+       <h4 class="category-title text-xl font-semibold text-gray-800">Pantry</h4>
+       <p class="text-sm text-gray-500">Pasta & Grains</p>
+      </div>
+
+      <div class="category-card bg-white rounded-2xl p-8" onclick="location.href='snacks.html'">
+       <div class="text-6xl mb-4">🍫</div>
+       <h4 class="category-title text-xl font-semibold text-gray-800">Snacks</h4>
+       <p class="text-sm text-gray-500">Chips & Candy</p>
+      </div>
+
+      <div class="category-card bg-white rounded-2xl p-8" onclick="location.href='beverages.html'">
+       <div class="text-6xl mb-4">🧃</div>
+       <h4 class="category-title text-xl font-semibold text-gray-800">Beverages</h4>
+       <p class="text-sm text-gray-500">Drinks & Juices</p>
+      </div>
+
+      <div class="category-card bg-white rounded-2xl p-8" onclick="location.href='household.html'">
+       <div class="text-6xl mb-4">🧼</div>
+       <h4 class="category-title text-xl font-semibold text-gray-800">Household</h4>
+       <p class="text-sm text-gray-500">Cleaning Supplies</p>
+      </div>
+
+     </div>
+    </div>
+   </section>
+
+   <section id="deals" class="w-full py-16 bg-white">
+    <div class="max-w-7xl mx-auto px-6 text-center">
+     <h3 id="deals-heading" class="text-4xl font-bold mb-12">Today's Hot Deals</h3>
+     <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+      <div class="deal-card rounded-2xl p-8 bg-amber-100 text-left shadow-sm">
+        <div class="flex justify-between mb-4"><span class="bg-red-500 text-white px-3 py-1 rounded-full text-sm font-bold">50% OFF</span> <span class="text-3xl">🍎</span></div>
+        <h4 class="text-2xl font-bold mb-2">Organic Apples</h4>
+        <div class="flex justify-between items-center">
+          <span class="text-2xl font-bold text-emerald-600">$2.99</span>
+          <button onclick="addToCart('Organic Apples', 2.99)" class="bg-emerald-600 text-white px-4 py-2 rounded-lg font-medium hover:bg-emerald-700 transition-colors">Add to Cart</button>
+        </div>
+      </div>
+      <div class="deal-card rounded-2xl p-8 bg-blue-100 text-left shadow-sm">
+        <div class="flex justify-between mb-4"><span class="bg-red-500 text-white px-3 py-1 rounded-full text-sm font-bold">30% OFF</span> <span class="text-3xl">🥖</span></div>
+        <h4 class="text-2xl font-bold mb-2">Artisan Bread</h4>
+        <div class="flex justify-between items-center">
+          <span class="text-2xl font-bold text-emerald-600">$3.49</span>
+          <button onclick="addToCart('Artisan Bread', 3.49)" class="bg-emerald-600 text-white px-4 py-2 rounded-lg font-medium hover:bg-emerald-700 transition-colors">Add to Cart</button>
+        </div>
+      </div>
+      <div class="deal-card rounded-2xl p-8 bg-pink-100 text-left shadow-sm">
+        <div class="flex justify-between mb-4"><span class="bg-red-500 text-white px-3 py-1 rounded-full text-sm font-bold">40% OFF</span> <span class="text-3xl">🧀</span></div>
+        <h4 class="text-2xl font-bold mb-2">Premium Cheese</h4>
+        <div class="flex justify-between items-center">
+          <span class="text-2xl font-bold text-emerald-600">$5.99</span>
+          <button onclick="addToCart('Premium Cheese', 5.99)" class="bg-emerald-600 text-white px-4 py-2 rounded-lg font-medium hover:bg-emerald-700 transition-colors">Add to Cart</button>
+        </div>
+      </div>
+     </div>
+    </div>
+   </section>
+
+   <footer class="w-full py-12 bg-gray-800 text-gray-300 text-center">
+    <div class="max-w-7xl mx-auto px-6">
+     <p id="footer-text">© 2025 FreshMart. Fresh groceries delivered with care.</p>
+    </div>
+   </footer>
+  </div>
+
+  <script>
+    function addToCart(name, price) {
+        let cart = JSON.parse(localStorage.getItem('myCart')) || [];
+        cart.push({ name, price });
+        localStorage.setItem('myCart', JSON.stringify(cart));
+        updateCartBadge();
+        
+        // Visual bounce on badge
+        const badge = document.getElementById('cart-count');
+        badge.style.transform = "scale(1.4)";
+        setTimeout(() => badge.style.transform = "scale(1)", 200);
+    }
+
+    function updateCartBadge() {
+        const cart = JSON.parse(localStorage.getItem('myCart')) || [];
+        document.getElementById('cart-count').textContent = cart.length;
+    }
+
+    window.onload = updateCartBadge;
+
+    // SDK Logic (For theme changes)
+    const defaultConfig = {
+      background_color: "#10b981",
+      store_name: "FreshMart",
+      hero_title: "Fresh Groceries Delivered to Your Door",
+      hero_subtitle: "Shop from thousands of products with same-day delivery",
+      cta_button: "Start Shopping"
+    };
+
+    if (window.elementSdk) {
+      window.elementSdk.init({
+        defaultConfig,
+        onConfigChange: (config) => {
+          if(config.background_color) document.querySelector('header').style.backgroundColor = config.background_color;
+          if(config.store_name) document.getElementById('store-name').textContent = config.store_name;
+        }
+      });
+    }
+  </script>
+ </body>
+</html>
