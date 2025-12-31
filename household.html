@@ -7,7 +7,7 @@
     <style>
         :root {
             --primary-color: #2e7d32;
-            --bg-image: url('https://images.unsplash.com/photo-1542838132-92c53300491e?auto=format&fit=crop&q=80&w=1974');
+            --bg-image: url('images/household.jpg');
             --text-dark: #333;
         }
 
@@ -113,103 +113,163 @@
         .add-btn.added {
             background-color: #fb8c00;
         }
+        /* Removes the default blue color and underline from the logo link */
+        .logo-link {
+         text-decoration: none;
+        color: var(--text-dark);
+        font-size: 1.5rem; /* Adjust size as needed */
+        }
+
+        .logo-link:hover {
+         opacity: 0.8; /* Subtle effect when hovering */
+        }
+        /* Full-screen overlay */
+#loader-wrapper {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: #ffffff;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999; /* Stays on top of everything */
+    transition: opacity 0.5s ease;
+}
+
+/* The spinning circle */
+.loader {
+    width: 50px;
+    height: 50px;
+    border: 5px solid #f3f3f3;
+    border-top: 5px solid #2e7d32; /* Match your green theme */
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin-bottom: 15px;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Hide the loader class */
+.loader-hidden {
+    opacity: 0;
+    visibility: hidden;
+}
     </style>
 </head>
 <body>
-
+<div id="loader-wrapper">
+    <div class="loader"></div>
+    <p>FreshMart is getting ready...</p>
+</div>
     <header>
-        <div class="logo"><strong>FRESH</strong>Mart</div>
-        <nav>
-            <a href="cart.html" class="cart-status">🛒 Cart (<span id="cart-count">0</span>)</a>
-        </nav>
-    </header>
-
+    <div class="logo">
+        <a href="supermercado.html" class="logo-link"><strong>FRESH</strong>Mart</a>
+    </div>
+    <nav>
+        <a href="cart.html" class="cart-status">🛒 Cart (<span id="cart-count">0</span>)</a>
+    </nav>
+</header>
     <section class="category-banner">
-        <h1>🥬 Fresh Produce</h1>
+        <h1>🧼 Household (Cleaning Supplies)</h1>
     </section>
 
     <div class="container">
         <div class="product-grid">
             
-            <div class="product-card">
-                <div class="product-image">
-                    <img src="images/apple.jpg" alt="Apples">
-                </div>
-                <div class="product-info">
-                    <div class="product-name">Organic Gala Apples</div>
-                    <div class="product-price">$4.99</div>
-                    <button class="add-btn" data-name="Gala Apples" data-price="4.99"  onclick="addToCart('Organic Gala Apples', 4.99)">
-       Add to Cart</button>
-                </div>
-            </div>
+           
+    <div class="product-card">
+        <div class="product-image"><img src="images/bread.jpg" alt="Bread"></div>
+        <div class="product-info">
+            <div class="product-name">Fresh Bread</div>
+            <div class="product-price">GH¢25.00</div>
+            <button class="add-btn" data-name="Fresh Bread" data-price="25.00">Add to Cart</button>
+        </div>
+    </div>
 
-            <div class="product-card">
-                <div class="product-image">
-                    <img src="images/broccoli.jpg" alt="Broccoli">
-                </div>
-                <div class="product-info">
-                    <div class="product-name">Fresh Broccoli</div>
-                    <div class="product-price">$2.49</div>
-                    <button class="add-btn" data-name="Broccoli" data-price="2.49" onclick="addToCart('Brocoli', 2.49)">
-        Add to Cart</button>
-                </div>
-            </div>
-            <div class="product-card">
-                <div class="product-image">
-                    <img src="images/banana.jpg" alt="Banana">
-                </div>
-                <div class="product-info">
-                    <div class="product-name">Banana</div>
-                    <div class="product-price">$1.49</div>
-                    <button class="add-btn" data-name="Banana" data-price="2149" onclick="addToCart('Banana', 1.49)">
-        Add to Cart</button>
-                </div>
-            </div>
+    <div class="product-card">
+        <div class="product-image"><img src="images/muffin.jpg" alt="Muffin"></div>
+        <div class="product-info">
+            <div class="product-name">Muffin</div>
+            <div class="product-price">GH¢10.00</div>
+            <button class="add-btn" data-name="Muffin" data-price="10.00">Add to Cart</button>
+        </div>
+    </div>
 
+    <div class="product-card">
+        <div class="product-image"><img src="images/cookies.jpg" alt="Cookies"></div>
+        <div class="product-info">
+            <div class="product-name">Chocolate Chip Cookies</div>
+            <div class="product-price">GH¢10.00</div>
+            <button class="add-btn" data-name="Chocolate Chip Cookies" data-price="10.00">Add to Cart</button>
+        </div>
+    </div>
+     <div class="product-card">
+        <div class="product-image"><img src="images/cake.jpg" alt="Cake"></div>
+        <div class="product-info">
+            <div class="product-name">Cake</div>
+            <div class="product-price">GH¢120.00</div>
+            <button class="add-btn" data-name="Cake" data-price="120.00">Add to Cart</button>
+        </div>
+        </div>
 
         </div>
     </div>
 
     <script>
-        // 1. Setup the cart as an empty array
-        let cart = [];
-        const cartCountElement = document.getElementById('cart-count');
-
-        // 2. Select all "Add to Cart" buttons
-        const addButtons = document.querySelectorAll('.add-btn');
-
-        addButtons.forEach(button => {
-            button.addEventListener('click', () => {
-                // Get item details from the data attributes
-                const name = button.getAttribute('data-name');
-                const price = button.getAttribute('data-price');
-
-                // 3. Add item to our cart array
-                cart.push({ name: name, price: price });
-
-                // 4. Update the number shown in the header
-                cartCountElement.innerText = cart.length;
-
-                // 5. Visual Feedback: Change button color and text briefly
-                const originalText = button.innerText;
-                button.innerText = "✓ Added!";
-                button.classList.add('added');
-
-                setTimeout(() => {
-                    button.innerText = originalText;
-                    button.classList.remove('added');
-                }, 1000);
-
-                // Optional: Show in console to see what's happening
-                console.log("Current Cart:", cart);
-            });
-        });
-function addToCart(name, price) {
-    let cart = JSON.parse(localStorage.getItem('myCart')) || [];
-    cart.push({ name, price });
-    localStorage.setItem('myCart', JSON.stringify(cart));
-    alert(name + " added to cart!");
+        // 1. Function to update the cart count shown in the header
+function updateCartUI() {
+    const cart = JSON.parse(localStorage.getItem('myCart')) || [];
+    document.getElementById('cart-count').innerText = cart.length;
 }
+
+// 2. Initialize the UI when the page loads
+updateCartUI();
+
+// 3. Handle adding items
+const addButtons = document.querySelectorAll('.add-btn');
+
+addButtons.forEach(button => {
+    button.addEventListener('click', () => {
+        // Get data from attributes
+        const name = button.getAttribute('data-name');
+        const price = button.getAttribute('data-price');
+
+        // Get current cart from localStorage, add new item, and save it back
+        let cart = JSON.parse(localStorage.getItem('myCart')) || [];
+        cart.push({ name: name, price: price });
+        localStorage.setItem('myCart', JSON.stringify(cart));
+
+        // Update the header count immediately
+        updateCartUI();
+
+        // Visual Feedback Animation
+        const originalText = button.innerText;
+        button.innerText = "✓ Added!";
+        button.classList.add('added');
+
+        setTimeout(() => {
+            button.innerText = originalText;
+            button.classList.remove('added');
+        }, 1000);
+    });
+});
+window.addEventListener('load', function() {
+    const loader = document.getElementById('loader-wrapper');
+    
+    // Smoothly fade out
+    loader.classList.add('loader-hidden');
+    
+    // Remove from DOM after fade so it doesn't block clicks
+    setTimeout(() => {
+        loader.style.display = 'none';
+    }, 500); 
+});
     </script>
 
 </body>
