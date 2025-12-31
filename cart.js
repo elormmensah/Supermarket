@@ -57,15 +57,44 @@ document.getElementById('checkout-form').addEventListener('submit', function(e) 
 });
 
 // Run display function on page load
-displayCart();
-window.addEventListener('load', function() {
-    const loader = document.getElementById('loader-wrapper');
+function displayCart() {
+    const cart = JSON.parse(localStorage.getItem('myCart')) || [];
+    const container = document.getElementById('cart-list');
+    const subtotalEl = document.getElementById('subtotal');
+    // New Elements
+    const deliveryEl = document.getElementById('delivery-fee');
+    const totalEl = document.getElementById('final-total');
     
-    // Smoothly fade out
-    loader.classList.add('loader-hidden');
-    
-    // Remove from DOM after fade so it doesn't block clicks
-    setTimeout(() => {
-        loader.style.display = 'none';
-    }, 500); 
-});
+    if (cart.length === 0) {
+        container.innerHTML = '<p class="empty-msg" style="text-align:center; padding: 20px; color: #666;">Your cart is empty.</p>';
+        subtotalEl.innerText = 'GH¢0.00';
+        deliveryEl.innerText = 'GH¢0.00';
+        totalEl.innerText = 'GH¢0.00';
+        return;
+    }
+
+    let subtotal = 0;
+    container.innerHTML = cart.map((item, index) => {
+        const price = parseFloat(item.price);
+        subtotal += price;
+
+        return `
+            <div class="cart-item">
+                <div>
+                    <strong>${item.name}</strong><br>
+                    <span style="color: #27ae60; font-weight: bold;">GH¢${price.toFixed(2)}</span>
+                </div>
+                <button class="remove-btn" onclick="removeItem(${index})">Remove</button>
+            </div>
+        `;
+    }).join('');
+
+    // --- MATH LOGIC ---
+    const deliveryFee = subtotal * 0.07; // Calculate 7%
+    const finalTotal = subtotal + deliveryFee;
+
+    // Update the display
+    subtotalEl.innerText = `GH¢${subtotal.toFixed(2)}`;
+    deliveryEl.innerText = `GH¢${deliveryFee.toFixed(2)}`;
+    totalEl.innerText = `GH¢${finalTotal.toFixed(2)}`;
+}

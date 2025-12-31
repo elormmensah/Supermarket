@@ -123,3 +123,8 @@ header nav a {
     opacity: 0;
     visibility: hidden;
 }
+.summary-line {
+    display: flex;
+    justify-content: space-between;
+    margin: 10px 0;
+}
