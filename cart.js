@@ -1,14 +1,10 @@
 function displayCart() {
-    // 1. Get the cart data
     const cart = JSON.parse(localStorage.getItem('myCart')) || [];
     const container = document.getElementById('cart-list');
     const subtotalEl = document.getElementById('subtotal');
-    
-    // NEW: Get the new fee and total elements
     const deliveryEl = document.getElementById('delivery-fee');
     const totalEl = document.getElementById('final-total');
     
-    // 2. If no items, show empty message
     if (cart.length === 0) {
         if (container) container.innerHTML = '<p class="empty-msg" style="text-align:center; padding: 20px; color: #666;">Your cart is empty.</p>';
         if (subtotalEl) subtotalEl.innerText = 'GH¢0.00';
@@ -17,12 +13,10 @@ function displayCart() {
         return;
     }
 
-    // 3. Generate HTML for items
     let subtotal = 0;
     const itemsHTML = cart.map((item, index) => {
         const price = parseFloat(item.price) || 0;
         subtotal += price;
-
         return `
             <div class="cart-item">
                 <div>
@@ -36,17 +30,14 @@ function displayCart() {
 
     if (container) container.innerHTML = itemsHTML;
 
-    // 4. MATH LOGIC (7% Fee)
     const deliveryFee = subtotal * 0.07;
     const finalTotal = subtotal + deliveryFee;
 
-    // 5. Update UI (with safety checks to prevent crashes)
     if (subtotalEl) subtotalEl.innerText = `GH¢${subtotal.toFixed(2)}`;
     if (deliveryEl) deliveryEl.innerText = `GH¢${deliveryFee.toFixed(2)}`;
     if (totalEl) totalEl.innerText = `GH¢${finalTotal.toFixed(2)}`;
 }
 
-// Function to remove an item
 function removeItem(index) {
     let cart = JSON.parse(localStorage.getItem('myCart')) || [];
     cart.splice(index, 1);
@@ -54,31 +45,48 @@ function removeItem(index) {
     displayCart();
 }
 
-// Handle the Checkout Form Submission
+// --- NEW CHECKOUT LOGIC STARTS HERE ---
 const checkoutForm = document.getElementById('checkout-form');
 if (checkoutForm) {
     checkoutForm.addEventListener('submit', function(e) {
         e.preventDefault();
+        
         const cart = JSON.parse(localStorage.getItem('myCart')) || [];
         if (cart.length === 0) {
             alert("Your cart is empty!");
             return;
         }
-        alert('Order placed successfully! Thank you for shopping at FreshMart.');
+
+        // 1. Capture Order Details from the input IDs we added to cart.html
+        const orderData = {
+            orderID: "#FM-" + Math.floor(Math.random() * 10000),
+            date: new Date().toLocaleString(),
+            customer: document.getElementById('cust-name').value,
+            phone: document.getElementById('cust-phone').value, 
+            address: document.getElementById('cust-address').value,
+            items: cart,
+            total: document.getElementById('final-total').innerText
+        };
+
+        // 2. Save Order to localStorage
+        localStorage.setItem('lastOrder', JSON.stringify(orderData));
+
+        // 3. Success and Redirect
+        alert('Order placed successfully!');
         localStorage.removeItem('myCart');
-        window.location.href = 'supermercado.html';
+        window.location.href = 'order-details.html'; 
     });
 }
+// --- NEW CHECKOUT LOGIC ENDS HERE ---
 
-// INITIALIZE PAGE
-// We wrap displayCart in a try/catch so if it fails, the loader still hides
+// Run display logic
 try {
     displayCart();
 } catch (error) {
     console.error("Cart display error:", error);
 }
 
-// HIDE LOADER (This must run even if there's an error above)
+// Loader Logic
 window.addEventListener('load', function() {
     const loader = document.getElementById('loader-wrapper');
     if (loader) {

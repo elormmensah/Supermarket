@@ -11,13 +11,16 @@
     <div class="loader"></div>
     <p>FreshMart is getting ready...</p>
 </div>
+
 <header>
     <h1>FreshMart</h1>
     <nav>
         <a href="supermercado.html">Home</a>
+        <a href="order-details.html" style="background-color: #3498db; padding: 10px 15px; border-radius: 5px; color: white; text-decoration: none;">📋 View Last Order</a>
+        
         <a href="supermercado.html#categories" 
-   style="display: inline-block; padding: 10px 20px; background-color: #10b981; color: white; text-decoration: none; border-radius: 5px;">
-   ← Back to Categories</a>
+           style="display: inline-block; padding: 10px 20px; background-color: #10b981; color: white; text-decoration: none; border-radius: 5px; margin-left: 10px;">
+           ← Back to Categories</a>
     </nav>
 </header>
 
@@ -31,32 +34,30 @@
 
     <section class="checkout-section">
         <div class="summary-card">
-    <h3>Order Summary</h3>
-    <div class="summary-line">
-        <span>Subtotal:</span>
-        <span id="subtotal">GH¢0.00</span>
-    </div>
-    <div class="summary-line">
-        <span>Delivery Fee (7%):</span>
-        <span id="delivery-fee">GH¢0.00</span>
-    </div>
-    <hr>
-    <div class="summary-line" style="font-size: 1.3rem; font-weight: bold; color: #2e7d32;">
-        <span>Total:</span>
-        <span id="final-total">GH¢0.00</span>
-    </div>
-    
-    <form id="checkout-form">
-        </form>
-</div>
+            <h3>Order Summary</h3>
+            <div class="summary-line">
+                <span>Subtotal:</span>
+                <span id="subtotal">GH¢0.00</span>
+            </div>
+            <div class="summary-line">
+                <span>Delivery Fee (7%):</span>
+                <span id="delivery-fee">GH¢0.00</span>
+            </div>
             <hr>
+            <div class="summary-line" style="font-size: 1.3rem; font-weight: bold; color: #2e7d32;">
+                <span>Total:</span>
+                <span id="final-total">GH¢0.00</span>
+            </div>
             
+            <hr>
+
             <form id="checkout-form">
                 <h3>Delivery Details</h3>
-                <input type="text" placeholder="Full Name" required>
-                <input type="email" placeholder="Email Address" required>
-                <input type="text" placeholder="Delivery Address" required>
-                <select required>
+                <input type="text" id="cust-name" placeholder="Full Name" required>
+                <input type="email" id="cust-email" placeholder="Email Address" required>
+                <input type="tel" id="cust-phone" placeholder="Phone Number (e.g. 050 000 0000)" required>
+                <input type="text" id="cust-address" placeholder="Delivery Address" required>
+                <select id="payment-method" required>
                     <option value="">Select Payment Method</option>
                     <option value="card">Credit/Debit Card</option>
                     <option value="cash">Cash on Delivery</option>
